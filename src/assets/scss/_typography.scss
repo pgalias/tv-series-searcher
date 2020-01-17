@@ -1,0 +1,38 @@
+$font-family: 'Lato', sans-serif;
+
+$base-font-size: 16px;
+
+$font-sizes: (
+  h1: 3.052em,
+  h2: 2.441em,
+  h3: 1.953em,
+  h4: 1.563em,
+  h5: 1.25em,
+  p: 1em,
+  small: 0.8em,
+);
+
+html {
+  font-size: $base-font-size;
+}
+
+body {
+  font-family: $font-family;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 2.75rem 0 1.05rem;
+  line-height: 1.15;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+@each $tag, $font-size in $font-sizes {
+  #{$tag} {
+    font-size: $font-size;
+  }
+}

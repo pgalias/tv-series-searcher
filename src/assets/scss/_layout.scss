@@ -1,0 +1,116 @@
+@import "mixins";
+@import "mq";
+
+$gutter: 30px;
+$column-count: 12;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+);
+$justify-contents: (
+  center: 'center',
+  start: 'flex-start',
+  end: 'flex-end',
+  between: 'space-between',
+  around: 'space-around',
+  stretch: 'stretch'
+);
+$align-items: (
+  baseline: 'baseline',
+  center: 'center',
+  start: 'flex-start',
+  end: 'flex-end',
+  stretch: 'stretch',
+);
+$align-contents: (
+  center: 'center',
+  start: 'flex-start',
+  end: 'flex-end',
+  around: 'space-around',
+  between: 'space-between',
+  stretch: 'stretch',
+);
+
+@mixin column-styles($size) {
+  flex: 0 0 percentage($size / $column-count);
+  max-width: percentage($size / $column-count);
+}
+
+.container {
+  @include same(padding-right padding-left, $gutter/2);
+  @include same(margin-right margin-left, auto);
+
+  @each $breakpoint, $max-width in $container-max-widths {
+    @include from($breakpoint) {
+      max-width: $max-width;
+    }
+  }
+}
+
+.row {
+  @include same(margin-right margin-left, -$gutter/2);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+[class*=col] {
+  @include same(padding-right padding-left, $gutter/2);
+}
+
+@for $i from 1 through 12 {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @if $breakpoint == 'xs' {
+      .xs-#{$i} { @include column-styles($i)}
+    } @else {
+      .#{$breakpoint}-#{$i} {
+        @include from($breakpoint) {
+          @include column-styles($i);
+        }
+      }
+    }
+  }
+}
+
+@each $class, $value in $justify-contents {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @if $breakpoint == 'xs' {
+      .justify-content-#{$class} {
+        justify-content: $value;
+      }
+    } @else {
+      .justify-content-#{$breakpoint}-#{$class} {
+        justify-content: $value;
+      }
+    }
+  }
+}
+
+@each $class, $value in $align-items {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @if $breakpoint == 'xs' {
+      .align-items-#{$class} {
+        align-items: $value;
+      }
+    } @else {
+      .align-items-#{$breakpoint}-#{$class} {
+        align-items: $value;
+      }
+    }
+  }
+}
+
+@each $class, $value in $align-contents {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @if $breakpoint == 'xs' {
+      .align-content-#{$class} {
+        align-content: $value;
+      }
+    } @else {
+      .align-content-#{$breakpoint}-#{$class} {
+        align-content: $value;
+      }
+    }
+  }
+}
