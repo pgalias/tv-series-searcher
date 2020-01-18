@@ -1,10 +1,9 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { isNumber } from 'lodash';
 
 import Predicate from '../decorators/predicate.decorator';
-import { isBetween } from '../helpers/number.helper';
+import { isBetween, isNumericType } from '../helpers/number.helper';
 
-const validateProperty = (value: number): boolean => !value || (isNumber(value) && isBetween(value, 1, 12));
+const validateProperty = (value: number): boolean => !value || (isNumericType(value) && isBetween(value, 1, 12));
 
 @Directive({
   selector: '[column]'

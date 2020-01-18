@@ -1,5 +1,5 @@
 import using from 'jasmine-data-provider';
-import { isBetween } from './number.helper';
+import { isBetween, isNumericType } from './number.helper';
 
 describe('Number Helper', () => {
   using([
@@ -17,4 +17,16 @@ describe('Number Helper', () => {
       expect(predicate).toBe(result);
     });
   });
+
+  using([
+    { predicate: isNumericType(1), result: true },
+    { predicate: isNumericType('1'), result: true },
+    { predicate: isNumericType('d'), result: false },
+    { predicate: isNumericType(NaN), result: false },
+    { predicate: isNumericType(Infinity), result: false },
+  ], ({ predicate, result }) => {
+    it('checks if given string or number is numeric type', () => {
+      expect(predicate).toBe(result);
+    });
+  })
 });
