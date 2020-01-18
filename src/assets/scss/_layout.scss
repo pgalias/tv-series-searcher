@@ -24,14 +24,21 @@ $cross-axis-alignment: (
   stretch: 'stretch',
 );
 
-@mixin column-styles($size) {
+@mixin make-column($size) {
   flex: 0 0 percentage($size / $column-count);
   max-width: percentage($size / $column-count);
+}
+
+@mixin make-alignment($main-axis-value, $cross-axis-value) {
+  justify-content: unquote($main-axis-value);
+  align-content: unquote($cross-axis-value);
+  align-items: unquote($cross-axis-value);
 }
 
 .container {
   @include same(padding-right padding-left, $gutter/2);
   @include same(margin-right margin-left, auto);
+  width: 100%;
 
   @each $breakpoint, $max-width in $container-max-widths {
     @include from($breakpoint) {
@@ -54,35 +61,31 @@ $cross-axis-alignment: (
   @include same(padding-right padding-left, $gutter/2);
 }
 
-@for $i from 1 through 12 {
-  @each $breakpoint in map-keys($grid-breakpoints) {
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @for $i from 1 through 12 {
     @if $breakpoint == 'xs' {
-      .xs-#{$i} { @include column-styles($i)}
+      .xs-#{$i} { @include make-column($i)}
     } @else {
       .#{$breakpoint}-#{$i} {
         @include from($breakpoint) {
-          @include column-styles($i);
+          @include make-column($i);
         }
       }
     }
   }
 }
 
-@each $m-class, $m-value in $main-axis-alignment {
-  @each $c-class, $c-value in $cross-axis-alignment {
-    @each $breakpoint in map-keys($grid-breakpoints) {
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @each $m-class, $m-value in $main-axis-alignment {
+    @each $c-class, $c-value in $cross-axis-alignment {
       @if $breakpoint == 'xs' {
         .align-#{$m-class}-#{$c-class} {
-          justify-content: unquote($m-value);
-          align-content: unquote($c-value);
-          align-items: unquote($c-value);
+          @include make-alignment($m-value, $c-value);
         }
       } @else {
         .align-#{$breakpoint}-#{$m-class}-#{$c-class} {
           @include from($breakpoint) {
-            justify-content: unquote($m-value);
-            align-content: unquote($c-value);
-            align-items: unquote($c-value);
+            @include make-alignment($m-value, $c-value);
           }
         }
       }

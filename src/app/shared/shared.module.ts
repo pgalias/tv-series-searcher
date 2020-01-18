@@ -4,7 +4,14 @@ import { RowDirective } from './directives/row.directive';
 import { ColumnDirective } from './directives/column.directive';
 
 @NgModule({
-  declarations: [RowDirective, ColumnDirective],
+  declarations: [
+    RowDirective,
+    ColumnDirective
+  ],
+  exports: [
+    RowDirective,
+    ColumnDirective,
+  ],
   imports: [
     CommonModule
   ]
