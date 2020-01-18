@@ -9,7 +9,7 @@ $container-max-widths: (
   lg: 960px,
   xl: 1140px,
 );
-$justify-contents: (
+$main-axis-alignment: (
   center: 'center',
   start: 'flex-start',
   end: 'flex-end',
@@ -17,19 +17,10 @@ $justify-contents: (
   around: 'space-around',
   stretch: 'stretch'
 );
-$align-items: (
-  baseline: 'baseline',
+$cross-axis-alignment: (
   center: 'center',
   start: 'flex-start',
   end: 'flex-end',
-  stretch: 'stretch',
-);
-$align-contents: (
-  center: 'center',
-  start: 'flex-start',
-  end: 'flex-end',
-  around: 'space-around',
-  between: 'space-between',
   stretch: 'stretch',
 );
 
@@ -55,7 +46,11 @@ $align-contents: (
   flex-wrap: wrap;
 }
 
-[class*=col] {
+[class*=xs-],
+[class*=sm-],
+[class*=md-],
+[class*=lg-],
+[class*=xl-] {
   @include same(padding-right padding-left, $gutter/2);
 }
 
@@ -73,44 +68,25 @@ $align-contents: (
   }
 }
 
-@each $class, $value in $justify-contents {
-  @each $breakpoint in map-keys($grid-breakpoints) {
-    @if $breakpoint == 'xs' {
-      .justify-content-#{$class} {
-        justify-content: $value;
-      }
-    } @else {
-      .justify-content-#{$breakpoint}-#{$class} {
-        justify-content: $value;
-      }
-    }
-  }
-}
-
-@each $class, $value in $align-items {
-  @each $breakpoint in map-keys($grid-breakpoints) {
-    @if $breakpoint == 'xs' {
-      .align-items-#{$class} {
-        align-items: $value;
-      }
-    } @else {
-      .align-items-#{$breakpoint}-#{$class} {
-        align-items: $value;
+@each $m-class, $m-value in $main-axis-alignment {
+  @each $c-class, $c-value in $cross-axis-alignment {
+    @each $breakpoint in map-keys($grid-breakpoints) {
+      @if $breakpoint == 'xs' {
+        .align-#{$m-class}-#{$c-class} {
+          justify-content: unquote($m-value);
+          align-content: unquote($c-value);
+          align-items: unquote($c-value);
+        }
+      } @else {
+        .align-#{$breakpoint}-#{$m-class}-#{$c-class} {
+          @include from($breakpoint) {
+            justify-content: unquote($m-value);
+            align-content: unquote($c-value);
+            align-items: unquote($c-value);
+          }
+        }
       }
     }
   }
 }
 
-@each $class, $value in $align-contents {
-  @each $breakpoint in map-keys($grid-breakpoints) {
-    @if $breakpoint == 'xs' {
-      .align-content-#{$class} {
-        align-content: $value;
-      }
-    } @else {
-      .align-content-#{$breakpoint}-#{$class} {
-        align-content: $value;
-      }
-    }
-  }
-}
