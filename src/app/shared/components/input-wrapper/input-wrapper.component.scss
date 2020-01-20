@@ -1,0 +1,35 @@
+@import "../../../../assets/scss/colors";
+
+::ng-deep .input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.5rem;
+  margin: 0.7rem 0;
+  border-radius: 6px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-color: transparent;
+    transition: width 0.25s ease-out;
+    z-index: -1;
+  }
+
+  &:focus-within::after {
+    background-color: $hover;
+    width: 100%;
+  }
+
+  input, textarea, select {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    flex: 1;
+  }
+}
