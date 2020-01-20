@@ -10,18 +10,23 @@
 
   &::after {
     content: '';
+
     position: absolute;
     top: 0;
     right: 0;
+
     width: 0;
     height: 100%;
-    background-color: transparent;
-    transition: width 0.25s ease-out;
+
+    border-radius: 6px;
+    background-color: $hover;
+
+    transform-origin: left;
+    transition: width 0.25s ease;
     z-index: -1;
   }
 
   &:focus-within::after {
-    background-color: $hover;
     width: 100%;
   }
 
