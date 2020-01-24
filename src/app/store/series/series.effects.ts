@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   FetchSeriesPending,
   FetchSeriesSuccess,
@@ -10,11 +11,8 @@ import {
 } from './series.actions';
 import { SeriesService } from '../../core/http/series.service';
 import { Series } from '../../shared/models/series';
-import { Action } from '@ngrx/store';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SeriesEffects {
 
   constructor(
