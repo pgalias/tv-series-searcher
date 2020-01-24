@@ -9,6 +9,7 @@ export enum SeriesActionTypes {
 
 export class FetchSeriesPending implements Action {
   readonly type = SeriesActionTypes.FETCH_SERIES_PENDING;
+  constructor(public payload: string) {}
 }
 
 export class FetchSeriesSuccess implements Action {

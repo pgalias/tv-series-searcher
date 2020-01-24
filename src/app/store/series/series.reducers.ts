@@ -7,6 +7,7 @@ export function reducer(state = initialState, action: SeriesActions) {
       return {
         ...state,
         loading: true,
+        error: false,
       };
     case SeriesActionTypes.FETCH_SERIES_SUCCESS:
       return {
@@ -19,6 +20,7 @@ export function reducer(state = initialState, action: SeriesActions) {
         ...state,
         series: [],
         loading: false,
+        error: true,
       };
     default:
       return state;

@@ -1,5 +1,6 @@
 import { ActionReducerMap } from '@ngrx/store';
 import * as Series from './series';
+import { SeriesEffects } from './series/series.effects';
 
 /* States */
 export interface State {
@@ -13,3 +14,6 @@ export const reducers: ActionReducerMap<State> = {
 
 /* Selectors */
 export * from './series/series.selectors';
+
+/* Effects */
+export const effects = [SeriesEffects];
