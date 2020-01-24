@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearcherModule } from './modules/searcher/searcher.module';
-import { reducers, metaReducers } from './reducers';
+import { reducers } from './store';
 
 @NgModule({
   declarations: [
@@ -14,13 +14,7 @@ import { reducers, metaReducers } from './reducers';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
-    }),
+    StoreModule.forRoot(reducers),
     SearcherModule,
   ],
   providers: [],
