@@ -1,18 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'searcher',
   templateUrl: './searcher.component.html',
   styleUrls: ['./searcher.component.scss']
 })
-export class SearcherComponent implements OnInit {
+export class SearcherComponent {
+  @Output() onPhraseChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
-  onPhraseChange(phrase: string): void {
-    console.log('phrase', phrase);
-  }
 }

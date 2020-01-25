@@ -1,0 +1,6 @@
+<searcher (onPhraseChange)="onPhraseChange($event)"></searcher>
+<series-list (toggleFavourite)="onFavouriteSeriesToggle($event)"
+             [series]="series$ | async"
+             [loading]="(flags$ | async).loading"
+             [loaded]="(flags$ | async).loaded"
+             [error]="(flags$ | async).error"></series-list>

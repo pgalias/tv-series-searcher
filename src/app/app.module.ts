@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearcherModule } from './modules/searcher/searcher.module';
 import { RootStoreModule } from './store';
+import { ContentModule } from './modules/content/content.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,7 @@ import { RootStoreModule } from './store';
     BrowserModule,
     AppRoutingModule,
     RootStoreModule,
-    SearcherModule,
+    ContentModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

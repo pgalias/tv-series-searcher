@@ -1,0 +1,30 @@
+<div class="series">
+  <div row align="between center">
+    <div column="12">
+      <img [src]="series.cover" [alt]="series.name" [title]="series.name"/>
+    </div>
+
+    <div column="8">
+      <p>{{ series.name }}</p>
+    </div>
+
+    <div column="4">
+      <p><small>{{ series.rating }}</small></p>
+    </div>
+
+    <div column="12">
+      <p>{{ series.summary }}</p>
+    </div>
+
+    <div column="6">
+      <a [href]="series.externalLink" target="_blank">See in IMDB</a>
+    </div>
+
+    <div column="6">
+      <button type="button" (click)="toggleFavourite.emit(series.id)" [title]="favourite.title">
+        <fa-icon [icon]="favourite.icon"></fa-icon>
+      </button>
+    </div>
+  </div>
+
+</div>
