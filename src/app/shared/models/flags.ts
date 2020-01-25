@@ -1,7 +1,7 @@
 export class Flags {
-  loading = false;
-  loaded = false;
-  error = false;
+  readonly loading = false;
+  readonly loaded = false;
+  readonly error = false;
 
   static loading(): Flags {
     return Object.assign(

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 import { RootStoreState, SeriesSelectors } from '../../../store';
 import { FetchSeriesPending } from '../../../store/series/series.actions';
 import { Series } from '../../../shared/models/series';
-import { map, shareReplay } from 'rxjs/operators';
 import { Flags } from '../../../shared/models/flags';
 
 @Component({
