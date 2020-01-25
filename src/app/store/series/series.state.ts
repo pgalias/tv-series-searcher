@@ -1,13 +1,12 @@
 import { Series } from '../../shared/models/series';
+import { Flags } from '../../shared/models/flags';
 
 export interface State {
   series: Series[];
-  loading: boolean;
-  error: boolean;
+  flags: Flags;
 }
 
 export const initialState: State = {
   series: [],
-  loading: false,
-  error: false,
+  flags: new Flags(),
 };
