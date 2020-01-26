@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
-import Predicate from '../decorators/predicate.decorator';
+import { Predicate } from '../decorators/predicate.decorator';
 import { isBetween, isNumericType } from '../helpers/number.helper';
 
 const validateProperty = (value: number): boolean => !value || (isNumericType(value) && isBetween(value, 1, 12));

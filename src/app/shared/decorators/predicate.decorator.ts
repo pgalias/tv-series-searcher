@@ -1,16 +1,16 @@
-export default function Predicate(fn: (v: any) => boolean) {
+export function Predicate(fn: (v: any) => boolean) {
   return (target: any, propName: string) => {
-    let v: number;
+    Object.defineProperty(this, '_propName', {});
 
     Object.defineProperty(target, propName, {
       get() {
-        return v;
+        return this['_propName'];
       },
-      set(newValue: any): void {
-        v = newValue;
+      set(v: any): void {
+        this['_propName'] = v;
 
-        if (!fn(newValue)) {
-          throw new Error(`${target.constructor.name}: @Input '${propName}' is invalid`);
+        if (!fn(v)) {
+          throw new Error(`${target.constructor.name}: @Input '${propName}' value is invalid.`);
         }
       },
       configurable: true,
