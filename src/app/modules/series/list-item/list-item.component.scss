@@ -1,0 +1,47 @@
+@import "../../../../assets/scss/mixins";
+@import "../../../../assets/scss/mq";
+@import "../../../../assets/scss/colors";
+@import "../../../../assets/scss/typography";
+@import "../../../../assets/scss/shadows";
+
+.series {
+  @extend .shadow-dp1;
+  transition: box-shadow 0.2s ease-out;
+  padding: 0.3rem 0.5rem;
+  margin: 0.7rem 0;
+  border-radius: 6px;
+
+  &:hover {
+    @extend .shadow-dp2;
+  }
+}
+
+.cover {
+  @include center-horizontal();
+  max-width: 100%;
+  height: auto;
+}
+
+.button {
+  display: block;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: $star;
+  cursor: pointer;
+}
+
+.link {
+  font: {
+    weight: 600;
+    size: 1rem;
+  }
+  color: $text;
+}
+
+.summary-container {
+  @include from(md) {
+    height: 150px;
+  }
+}

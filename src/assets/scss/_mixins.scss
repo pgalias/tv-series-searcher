@@ -7,3 +7,8 @@
     #{$property}: $value;
   }
 }
+
+@mixin center-horizontal() {
+  @include same(margin-right margin-left, auto);
+  display: block;
+}

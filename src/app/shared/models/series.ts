@@ -23,8 +23,4 @@ export class Series {
   external: string = null;
 
   isFavourite = false;
-
-  get externalLink(): string {
-    return `https://www.imdb.com/title/${this.external}`;
-  }
 }
