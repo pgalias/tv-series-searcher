@@ -18,20 +18,16 @@
         Summary was not provided
       </ng-template>
 
-      <span *ngIf="series.rating">
+      <span *ngIf="series.rating; else unrated">
         <strong>Rating: {{ series.rating | number:'1.1-1' }}</strong>
       </span>
+      <ng-template #unrated>
+        <small>Series unrated</small>
+      </ng-template>
     </div>
 
-    <div column="6" class="link-container">
-      <a [href]="externalLink" target="_blank" class="link">See in IMDB</a>
-    </div>
-
-    <div column="6" class="button-container">
-      <button (click)="toggleFavourite.emit(series.id)" class="button" type="button" [title]="favourite.title">
-        <fa-icon [icon]="favourite.icon"></fa-icon>
-      </button>
-    </div>
+    <lnk column="6" [address]="externalLink" [openInNewWindow]="true">See in IMDB</lnk>
+    <favourite-button column="6" [state]="series.isFavourite" (toggle)="toggleFavourite.emit(series.id)"></favourite-button>
 
   </div>
 

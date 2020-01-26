@@ -1,0 +1,7 @@
+<button (click)="toggle.emit()"
+        [title]="(state ? 'Remove from' : 'Add to') + ' favourite'"
+        class="favourite"
+        type="button">
+  <fa-icon *ngIf="state" [icon]="favourite"></fa-icon>
+  <fa-icon *ngIf="!state" [icon]="unfavourite"></fa-icon>
+</button>
