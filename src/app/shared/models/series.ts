@@ -1,8 +1,9 @@
 import { PropertyMap } from '../decorators/property-map.decorator';
+import { Id } from './id';
 
 export class Series {
   @PropertyMap('show.id')
-  id: number = null;
+  id: Id = null;
 
   @PropertyMap('show.image.medium')
   cover: string = null;

@@ -6,6 +6,7 @@ import { RootStoreState, SeriesSelectors } from '../../../store';
 import { FetchSeriesPending } from '../../../store/series/series.actions';
 import { Series } from '../../../shared/models/series';
 import { Flags } from '../../../shared/models/flags';
+import { Id } from '../../../shared/models/id';
 
 @Component({
   selector: 'main-content',
@@ -29,7 +30,7 @@ export class ContentComponent implements OnInit {
     this.store$.dispatch(new FetchSeriesPending(phrase));
   }
 
-  onFavouriteSeriesToggle(id: number): void {
+  onFavouriteSeriesToggle(id: Id): void {
     this.series$.pipe(
       map((series: Series[]) => series.find((serie: Series) => serie.id === id)),
     ).subscribe(console.log);
