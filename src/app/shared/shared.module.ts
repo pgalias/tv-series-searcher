@@ -4,6 +4,7 @@ import { RowDirective } from './directives/row.directive';
 import { ColumnDirective } from './directives/column.directive';
 import { InputWrapperComponent } from './components/input-wrapper/input-wrapper.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -11,12 +12,14 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     ColumnDirective,
     InputWrapperComponent,
     SpinnerComponent,
+    TruncatePipe,
   ],
   exports: [
     RowDirective,
     ColumnDirective,
     InputWrapperComponent,
     SpinnerComponent,
+    TruncatePipe,
   ],
   imports: [
     CommonModule
