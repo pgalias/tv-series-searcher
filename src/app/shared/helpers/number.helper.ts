@@ -1,7 +1,7 @@
 import { toNumber, isNaN, isFinite } from 'lodash';
 
-export function isBetween(value: number, min: number, max: number) {
-  return value >= min && value <= max;
+export function isBetween(min: number, max: number): (value: number) => boolean {
+  return (value: number) => value >= min && value <= max;
 }
 
 export function isNumericType(value: string | number): boolean {

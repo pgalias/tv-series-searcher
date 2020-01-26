@@ -1,32 +1,27 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
-import { Predicate } from '../decorators/predicate.decorator';
 import { isBetween, isNumericType } from '../helpers/number.helper';
 
-const validateProperty = (value: number): boolean => !value || (isNumericType(value) && isBetween(value, 1, 12));
+export const MIN_VALUE = 1;
+export const MAX_VALUE = 12;
 
 @Directive({
   selector: '[column]'
 })
 export class ColumnDirective implements OnInit {
 
-  @Predicate(validateProperty)
   @Input('column')
   xs: number;
 
-  @Predicate(validateProperty)
   @Input()
   sm: number;
 
-  @Predicate(validateProperty)
   @Input()
   md: number;
 
-  @Predicate(validateProperty)
   @Input()
   lg: number;
 
-  @Predicate(validateProperty)
   @Input()
   xl: number;
 
@@ -34,6 +29,8 @@ export class ColumnDirective implements OnInit {
   }
 
   ngOnInit(): void {
+    this.validateProperties();
+
     (this.el.nativeElement as HTMLElement).classList.add(...this.resolveClasses());
   }
 
@@ -45,5 +42,17 @@ export class ColumnDirective implements OnInit {
       `lg-${this.lg}`,
       `xl-${this.xl}`,
     ].filter((value: string) => !value.includes('-undefined'));
+  }
+
+  private validateProperties(): boolean {
+    if (
+      Object.values(this)
+        .filter(isNumericType)
+        .some(isBetween(MIN_VALUE, MAX_VALUE))
+    ) {
+      return;
+    }
+
+    throw new Error(`ColumnDirective: @Input has received some invalid values. Proper values should be between 1 and 12.`);
   }
 }

@@ -4,15 +4,15 @@ import { isBetween, isNumericType } from './number.helper';
 describe('Number Helper', () => {
   it('resolves if given number is between range', () => {
     using([
-      { predicate: isBetween(2, 1, 3), result: true },
-      { predicate: isBetween(-2, -3, -1), result: true },
-      { predicate: isBetween(-20, -50, 50), result: true },
-      { predicate: isBetween(0.1, 0.1, 0.2), result: true },
-      { predicate: isBetween(0.2, 0.1, 0.2), result: true },
-      { predicate: isBetween(40, 1, 3), result: false },
-      { predicate: isBetween(-40, -100, -50), result: false },
-      { predicate: isBetween(0.1, 0.101, 0.102), result: false },
-      { predicate: isBetween(0.103, 0.101, 0.102), result: false },
+      { predicate: isBetween(1, 3)(2), result: true },
+      { predicate: isBetween(-3, -1)(-2), result: true },
+      { predicate: isBetween(-50, 50)(-20), result: true },
+      { predicate: isBetween(0.1, 0.2)(0.1), result: true },
+      { predicate: isBetween(0.1, 0.2)(0.2), result: true },
+      { predicate: isBetween(1, 3)(40), result: false },
+      { predicate: isBetween(-100, -50)(-40), result: false },
+      { predicate: isBetween(0.101, 0.102)(0.1), result: false },
+      { predicate: isBetween(0.101, 0.102)(0.103), result: false },
     ], ({ predicate, result }) => {
       expect(predicate).toBe(result);
     });
