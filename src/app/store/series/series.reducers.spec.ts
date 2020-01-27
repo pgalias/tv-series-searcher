@@ -3,7 +3,9 @@ import { initialState } from './series.state';
 import {
   FetchSeriesPending,
   FetchSeriesSuccess,
-  FetchSeriesFailure, AddFavourite, RemoveFavourite
+  FetchSeriesFailure,
+  AddFavourite,
+  RemoveFavourite,
 } from './series.actions';
 import { Series } from '../../shared/models/series';
 import { Flags } from '../../shared/models/flags';

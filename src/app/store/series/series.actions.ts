@@ -42,10 +42,10 @@ export class ToggleFavourite implements Action {
 }
 
 export type SeriesActions =
-  FetchSeriesPending |
-  FetchSeriesSuccess |
-  FetchSeriesFailure |
-  AddFavourite |
-  RemoveFavourite |
-  ToggleFavourite
+  | FetchSeriesPending
+  | FetchSeriesSuccess
+  | FetchSeriesFailure
+  | AddFavourite
+  | RemoveFavourite
+  | ToggleFavourite
 ;

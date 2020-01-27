@@ -11,7 +11,7 @@ import { CoreModule } from '../../core/core.module';
     CommonModule,
     CoreModule,
     StoreModule.forFeature('series', reducer),
-    EffectsModule.forFeature([SeriesEffects])
+    EffectsModule.forFeature([SeriesEffects]),
   ],
   providers: [
     SeriesEffects,
