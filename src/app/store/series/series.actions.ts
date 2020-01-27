@@ -9,6 +9,7 @@ export enum SeriesActionTypes {
 
   ADD_FAVOURITE = '[Favorite] Add',
   REMOVE_FAVOURITE = '[Favourite] Remove',
+  TOGGLE_FAVOURITE = '[Favourite] Toggle',
 }
 
 export class FetchSeriesPending implements Action {
@@ -35,9 +36,16 @@ export class RemoveFavourite implements Action {
   constructor(public payload: Id) {}
 }
 
+export class ToggleFavourite implements Action {
+  readonly type = SeriesActionTypes.TOGGLE_FAVOURITE;
+  constructor(public payload: Series) {}
+}
+
 export type SeriesActions =
   FetchSeriesPending |
   FetchSeriesSuccess |
   FetchSeriesFailure |
   AddFavourite |
-  RemoveFavourite;
+  RemoveFavourite |
+  ToggleFavourite
+;

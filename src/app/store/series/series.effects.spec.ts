@@ -3,9 +3,17 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { of, ReplaySubject, throwError } from 'rxjs';
 
 import { SeriesEffects } from './series.effects';
-import { FetchSeriesFailure, FetchSeriesPending, FetchSeriesSuccess } from './series.actions';
+import {
+  AddFavourite,
+  FetchSeriesFailure,
+  FetchSeriesPending,
+  FetchSeriesSuccess,
+  RemoveFavourite,
+  ToggleFavourite
+} from './series.actions';
 import { SeriesService } from '../../core/http/series.service';
 import { Series } from '../../shared/models/series';
+import { createSeries } from '../../shared/helpers/tests.helper';
 
 describe('SeriesEffects', () => {
   const mockSeries = [new Series()];
@@ -29,20 +37,45 @@ describe('SeriesEffects', () => {
     seriesEffects = TestBed.get(SeriesEffects);
     seriesService = TestBed.get(SeriesService);
     actions$ = new ReplaySubject<any>(1);
-    actions$.next(new FetchSeriesPending('foo'));
   });
 
-  it('should dispatch FetchSeriesSuccess action on success', () => {
-    (seriesService.getSeries as jasmine.Spy).and.returnValue(of(mockSeries));
-    seriesEffects.fetchSeries$.subscribe(action => {
-      expect(action).toEqual(new FetchSeriesSuccess(mockSeries));
+  describe('fetchSeries$', () => {
+    beforeEach(() => {
+      actions$.next(new FetchSeriesPending('foo'));
+    });
+
+    it('should dispatch FetchSeriesSuccess action on success', () => {
+      (seriesService.getSeries as jasmine.Spy).and.returnValue(of(mockSeries));
+      seriesEffects.fetchSeries$.subscribe(action => {
+        expect(action).toEqual(new FetchSeriesSuccess(mockSeries));
+      });
+    });
+
+    it('should dispatch FetchSeriesFailure action on failure', () => {
+      (seriesService.getSeries as jasmine.Spy).and.returnValue(throwError({status: 500}));
+      seriesEffects.fetchSeries$.subscribe(action => {
+        expect(action).toEqual(new FetchSeriesFailure());
+      });
     });
   });
 
-  it('should dispatch FetchSeriesFailure action on failure', () => {
-    (seriesService.getSeries as jasmine.Spy).and.returnValue(throwError({status: 500}));
-    seriesEffects.fetchSeries$.subscribe(action => {
-      expect(action).toEqual(new FetchSeriesFailure());
+  describe('toggleFavourite$', () => {
+    it('should dispatch AddFavourite action when currently series is not on favourites list', () => {
+      const series = createSeries({ id: 123, isFavourite: false });
+      actions$.next(new ToggleFavourite(series));
+
+      seriesEffects.toggleFavourite$.subscribe(action => {
+        expect(action).toEqual(new AddFavourite(series.id));
+      });
+    });
+
+    it('should dispatch RemoveFavourite action when currently series is on favourites list', () => {
+      const series = createSeries({ id: 123, isFavourite: true });
+      actions$.next(new ToggleFavourite(series));
+
+      seriesEffects.toggleFavourite$.subscribe(action => {
+        expect(action).toEqual(new RemoveFavourite(series.id));
+      });
     });
   });
 });

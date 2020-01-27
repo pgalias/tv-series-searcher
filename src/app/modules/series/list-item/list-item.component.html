@@ -27,7 +27,7 @@
     </div>
 
     <lnk column="6" [address]="externalLink" [openInNewWindow]="true">See in IMDB</lnk>
-    <favourite-button column="6" [state]="series.isFavourite" (toggle)="toggleFavourite.emit(series.id)"></favourite-button>
+    <favourite-button column="6" [state]="series.isFavourite" (toggle)="toggleFavourite.emit(series)"></favourite-button>
 
   </div>
 

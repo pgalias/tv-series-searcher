@@ -9,7 +9,7 @@ import { Series } from '../../../shared/models/series';
 export class ListItemComponent {
 
   @Input() readonly series: Series;
-  @Output() toggleFavourite: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleFavourite: EventEmitter<Series> = new EventEmitter<Series>();
 
   private readonly summaryMaxLength = 100;
 

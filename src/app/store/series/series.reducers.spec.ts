@@ -7,8 +7,7 @@ import {
 } from './series.actions';
 import { Series } from '../../shared/models/series';
 import { Flags } from '../../shared/models/flags';
-
-const createSeries = (params: Partial<Series>): Series => Object.assign(new Series(), params);
+import { createSeries } from '../../shared/helpers/tests.helper';
 
 describe('Series reducer', () => {
   const series = [new Series()];
