@@ -3,25 +3,25 @@ import { Id } from './id';
 
 export class Series {
   @PropertyMap('show.id')
-  id: Id = null;
+  readonly id: Id = null;
 
   @PropertyMap('show.image.medium')
-  cover: string = null;
+  readonly cover: string = null;
 
   @PropertyMap('show.name')
-  name: string = null;
+  readonly name: string = null;
 
   @PropertyMap('show.rating.average')
-  rating: number = null;
+  readonly rating: number = null;
 
   @PropertyMap('show.summary')
-  summary: string = null;
+  readonly summary: string = null;
 
   @PropertyMap('show.genres')
-  genres: string[] = [];
+  readonly genres: string[] = [];
 
   @PropertyMap('show.externals.imdb')
-  external: string = null;
+  readonly external: string = null;
 
-  isFavourite = false;
+  readonly isFavourite: boolean = null;
 }

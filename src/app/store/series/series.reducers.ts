@@ -1,5 +1,5 @@
 import { SeriesActions, SeriesActionTypes } from './series.actions';
-import { initialState } from './series.state';
+import { initialState, setSeriesFavourite } from './series.state';
 import { Flags } from '../../shared/models/flags';
 
 export function reducer(state = initialState, action: SeriesActions) {
@@ -20,6 +20,16 @@ export function reducer(state = initialState, action: SeriesActions) {
         ...state,
         series: [],
         flags: Flags.error(),
+      };
+    case SeriesActionTypes.ADD_FAVOURITE:
+      return {
+        ...state,
+        series: setSeriesFavourite(state.series, action.payload, true),
+      };
+    case SeriesActionTypes.REMOVE_FAVOURITE:
+      return {
+        ...state,
+        series: setSeriesFavourite(state.series, action.payload, false),
       };
     default:
       return state;

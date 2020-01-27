@@ -1,10 +1,14 @@
 import { Action } from '@ngrx/store';
 import { Series } from '../../shared/models/series';
+import { Id } from '../../shared/models/id';
 
 export enum SeriesActionTypes {
   FETCH_SERIES_PENDING = '[Series] Fetch Pending',
   FETCH_SERIES_SUCCESS = '[Series] Fetch Success',
   FETCH_SERIES_FAILURE = '[Series] Fetch Failure',
+
+  ADD_FAVOURITE = '[Favorite] Add',
+  REMOVE_FAVOURITE = '[Favourite] Remove',
 }
 
 export class FetchSeriesPending implements Action {
@@ -21,4 +25,19 @@ export class FetchSeriesFailure implements Action {
   readonly type = SeriesActionTypes.FETCH_SERIES_FAILURE;
 }
 
-export type SeriesActions = FetchSeriesPending | FetchSeriesSuccess | FetchSeriesFailure;
+export class AddFavourite implements Action {
+  readonly type = SeriesActionTypes.ADD_FAVOURITE;
+  constructor(public payload: Id) {}
+}
+
+export class RemoveFavourite implements Action {
+  readonly type = SeriesActionTypes.REMOVE_FAVOURITE;
+  constructor(public payload: Id) {}
+}
+
+export type SeriesActions =
+  FetchSeriesPending |
+  FetchSeriesSuccess |
+  FetchSeriesFailure |
+  AddFavourite |
+  RemoveFavourite;

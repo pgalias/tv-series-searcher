@@ -58,7 +58,7 @@ describe('SeriesService', () => {
           rating: 12,
           summary: 'foobarbaz',
           external: 'abcde',
-          isFavourite: false,
+          isFavourite: null,
         }),
         Object.assign(new Series(), {
           id: 2,
@@ -68,7 +68,7 @@ describe('SeriesService', () => {
           rating: 4,
           summary: 'foo bar baz',
           external: 'uwxyz',
-          isFavourite: false,
+          isFavourite: null,
         }),
       ]);
     });
