@@ -28,7 +28,7 @@ describe('SeriesEffects', () => {
       provideMockActions(() => actions$),
       {
         provide: SeriesService,
-        useValue: jasmine.createSpyObj('seriesService', ['getAllSeries', 'getSeriesBy'])
+        useValue: jasmine.createSpyObj('seriesService', ['getAll', 'getBy'])
       },
     ],
   }));
@@ -40,21 +40,47 @@ describe('SeriesEffects', () => {
   });
 
   describe('fetchSeries$', () => {
-    beforeEach(() => {
-      actions$.next(new FetchSeriesPending('foo'));
-    });
+    describe('with phrase', () => {
+      beforeEach(() => {
+        actions$.next(new FetchSeriesPending('foo'));
+      });
 
-    it('should dispatch FetchSeriesSuccess action on success', () => {
-      (seriesService.getSeriesBy as jasmine.Spy).and.returnValue(of(mockSeries));
-      seriesEffects.fetchSeries$.subscribe(action => {
-        expect(action).toEqual(new FetchSeriesSuccess(mockSeries));
+      it('should dispatch FetchSeriesSuccess action on success', () => {
+        (seriesService.getBy as jasmine.Spy).and.returnValue(of(mockSeries));
+        seriesEffects.fetchSeries$.subscribe(action => {
+          expect(action).toEqual(new FetchSeriesSuccess(mockSeries));
+          expect(seriesService.getAll).not.toHaveBeenCalled();
+        });
+      });
+
+      it('should dispatch FetchSeriesFailure action on failure', () => {
+        (seriesService.getBy as jasmine.Spy).and.returnValue(throwError({status: 500}));
+        seriesEffects.fetchSeries$.subscribe(action => {
+          expect(action).toEqual(new FetchSeriesFailure());
+          expect(seriesService.getAll).not.toHaveBeenCalled();
+        });
       });
     });
 
-    it('should dispatch FetchSeriesFailure action on failure', () => {
-      (seriesService.getSeriesBy as jasmine.Spy).and.returnValue(throwError({status: 500}));
-      seriesEffects.fetchSeries$.subscribe(action => {
-        expect(action).toEqual(new FetchSeriesFailure());
+    describe('without phrase', () => {
+      beforeEach(() => {
+        actions$.next(new FetchSeriesPending(''));
+      });
+
+      it('should dispatch FetchSeriesSuccess action on success', () => {
+        (seriesService.getAll as jasmine.Spy).and.returnValue(of(mockSeries));
+        seriesEffects.fetchSeries$.subscribe(action => {
+          expect(action).toEqual(new FetchSeriesSuccess(mockSeries));
+          expect(seriesService.getBy).not.toHaveBeenCalled();
+        });
+      });
+
+      it('should dispatch FetchSeriesFailure action on failure', () => {
+        (seriesService.getAll as jasmine.Spy).and.returnValue(throwError({status: 500}));
+        seriesEffects.fetchSeries$.subscribe(action => {
+          expect(action).toEqual(new FetchSeriesFailure());
+          expect(seriesService.getBy).not.toHaveBeenCalled();
+        });
       });
     });
   });

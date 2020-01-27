@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { map as lodashMap } from 'lodash';
 import { CoreModule } from '../core.module';
 import { mapToModel } from '../../shared/operators/map-to-model.operator';
 import { Series } from '../../shared/models/series';
@@ -15,11 +17,14 @@ export class SeriesService {
   constructor(private http: HttpClient) {
   }
 
-  getAllSeries(): Observable<Series[]> {
+  getAll(): Observable<Series[]> {
     return this.http.get(`${this.root}/shows`).pipe(mapToModel(Series));
   }
 
-  getSeriesBy(phrase: string): Observable<Series[]> {
-    return this.http.get(`${this.root}/search/shows?q=${phrase}`).pipe(mapToModel(Series));
+  getBy(phrase: string): Observable<Series[]> {
+    return this.http.get(`${this.root}/search/shows?q=${phrase}`).pipe(
+      map((series: { score: number, show: object }[]) => lodashMap(series, 'show')),
+      mapToModel(Series)
+    );
   }
 }

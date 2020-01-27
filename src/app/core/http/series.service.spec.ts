@@ -6,54 +6,56 @@ import { Series } from '../../shared/models/series';
 describe('SeriesService', () => {
   let httpClientSpy: { get: jasmine.Spy };
   let seriesService: SeriesService;
-  const endpointReturnValue: Observable<object[]> = of([{
-    show: {
-      id: 1,
-      name: 'Foo',
-      genres: [ 'Drama' ],
-      image: {
-        medium: 'foo.jpg',
-      },
-      rating: {
-        average: 12,
-      },
-      summary: 'foobarbaz',
-      externals: {
-        imdb: 'abcde',
-      },
-    }
-  }, {
-    show: {
-      id: 2,
-      name: 'Bar',
-      genres: [ 'Comedy' ],
-      image: {
-        medium: 'bar.jpg',
-      },
-      rating: {
-        average: 4,
-      },
-      summary: 'foo bar baz',
-      externals: {
-        imdb: 'uwxyz',
-      },
-    }
-  }]);
 
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    httpClientSpy.get.and.returnValue(endpointReturnValue);
     seriesService = new SeriesService(httpClientSpy as any);
   });
 
   describe('getSeriesBy method', () => {
+    const endpointReturnValue: Observable<object[]> = of([{
+      show: {
+        id: 1,
+        name: 'Foo',
+        genres: ['Drama'],
+        image: {
+          medium: 'foo.jpg',
+        },
+        rating: {
+          average: 12,
+        },
+        summary: 'foobarbaz',
+        externals: {
+          imdb: 'abcde',
+        },
+      }
+    }, {
+      show: {
+        id: 2,
+        name: 'Bar',
+        genres: ['Comedy'],
+        image: {
+          medium: 'bar.jpg',
+        },
+        rating: {
+          average: 4,
+        },
+        summary: 'foo bar baz',
+        externals: {
+          imdb: 'uwxyz',
+        },
+      }
+    }]);
+
     it('should return list of series from outside API', () => {
-      seriesService.getSeriesBy('Baz').subscribe((series: Series[]) => {
+      httpClientSpy.get.and.returnValue(endpointReturnValue);
+
+      seriesService.getBy('Baz').subscribe((series: Series[]) => {
         expect(series).toEqual([
           Object.assign(new Series(), {
             id: 1,
             name: 'Foo',
-            genres: [ 'Drama' ],
+            genres: ['Drama'],
             cover: 'foo.jpg',
             rating: 12,
             summary: 'foobarbaz',
@@ -63,7 +65,7 @@ describe('SeriesService', () => {
           Object.assign(new Series(), {
             id: 2,
             name: 'Bar',
-            genres: [ 'Comedy' ],
+            genres: ['Comedy'],
             cover: 'bar.jpg',
             rating: 4,
             summary: 'foo bar baz',
@@ -76,13 +78,45 @@ describe('SeriesService', () => {
   });
 
   describe('getAllSeries method', () => {
+    const endpointReturnValue: Observable<object[]> = of([{
+      id: 1,
+      name: 'Foo',
+      genres: ['Drama'],
+      image: {
+        medium: 'foo.jpg',
+      },
+      rating: {
+        average: 12,
+      },
+      summary: 'foobarbaz',
+      externals: {
+        imdb: 'abcde',
+      },
+    }, {
+      id: 2,
+      name: 'Bar',
+      genres: ['Comedy'],
+      image: {
+        medium: 'bar.jpg',
+      },
+      rating: {
+        average: 4,
+      },
+      summary: 'foo bar baz',
+      externals: {
+        imdb: 'uwxyz',
+      },
+    }]);
+
     it('should return list of series from oustide API', () => {
-      seriesService.getAllSeries().subscribe((series: Series[]) => {
+      httpClientSpy.get.and.returnValue(endpointReturnValue);
+
+      seriesService.getAll().subscribe((series: Series[]) => {
         expect(series).toEqual([
           Object.assign(new Series(), {
             id: 1,
             name: 'Foo',
-            genres: [ 'Drama' ],
+            genres: ['Drama'],
             cover: 'foo.jpg',
             rating: 12,
             summary: 'foobarbaz',
@@ -92,7 +126,7 @@ describe('SeriesService', () => {
           Object.assign(new Series(), {
             id: 2,
             name: 'Bar',
-            genres: [ 'Comedy' ],
+            genres: ['Comedy'],
             cover: 'bar.jpg',
             rating: 4,
             summary: 'foo bar baz',

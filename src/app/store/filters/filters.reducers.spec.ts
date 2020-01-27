@@ -3,6 +3,7 @@ import {initialState} from './filters.state';
 import {
   SetPhrase,
   ClearPhrase,
+  SetPageNumber,
 } from './filters.actions';
 
 describe('Filters reducer', () => {
@@ -25,6 +26,30 @@ describe('Filters reducer', () => {
       const expected = { ...currentState, phrase: null };
 
       expect(newState).toEqual(expected);
+    });
+  });
+
+  describe('Page actions', () => {
+    describe('FiltersActions.SetPageNumber', () => {
+      it('should save current page number to store', () => {
+        const action = new SetPageNumber(4);
+        const newState = reducer(initialState, action);
+        const expected = { ...initialState, pageNumber: 4 };
+
+        expect(newState).toEqual(expected);
+      });
+
+      it('should prevent to set page number lower than 1', () => {
+        const currentState = {
+          ...initialState,
+          pageNumber: 2,
+        };
+        const action = new SetPageNumber(-1);
+        const newState = reducer(currentState, action);
+        const expected = { ...initialState, pageNumber: 1 };
+
+        expect(newState).toEqual(expected);
+      });
     });
   });
 });

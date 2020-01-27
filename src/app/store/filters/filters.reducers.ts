@@ -13,6 +13,11 @@ export function reducer(state = initialState, action: FiltersActions) {
         ...state,
         phrase: initialState.phrase,
       };
+    case FiltersActionsTypes.SET_PAGE_NUMBER:
+      return {
+        ...state,
+        pageNumber: Math.max(1, action.payload),
+      };
     default:
       return state;
   }

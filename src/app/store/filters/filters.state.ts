@@ -1,3 +1,5 @@
+import { STORAGE_PHRASE_KEY } from '../../core/storage/storage.service';
+
 export interface State {
   phrase: string;
   pageNumber: number;
@@ -5,7 +7,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  phrase: null,
+  phrase: JSON.parse(localStorage.getItem(STORAGE_PHRASE_KEY)),
   pageNumber: 1,
   pagesCount: 20,
 };

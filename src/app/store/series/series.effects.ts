@@ -22,7 +22,7 @@ export class SeriesEffects {
   fetchSeries$: Observable<Action> = this.actions$.pipe(
     ofType<FetchSeriesPending>(SeriesActionTypes.FETCH_SERIES_PENDING),
     switchMap(action =>
-      this.seriesService.getSeriesBy(action.payload).pipe(
+      this.resolveServiceMethod(action).pipe(
         map((series: Series[]) => new FetchSeriesSuccess(series)),
         catchError(() => of(new FetchSeriesFailure())),
       )
@@ -43,5 +43,13 @@ export class SeriesEffects {
     private actions$: Actions,
     private seriesService: SeriesService,
   ) {
+  }
+
+  private resolveServiceMethod({ payload }: FetchSeriesPending): Observable<Series[]> {
+    if (Boolean(payload)) {
+      return this.seriesService.getBy(payload);
+    }
+
+    return this.seriesService.getAll();
   }
 }
