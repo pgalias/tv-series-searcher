@@ -10,12 +10,16 @@ import { Series } from '../../shared/models/series';
 })
 export class SeriesService {
 
-  private readonly root = 'http://api.tvmaze.com/search';
+  private readonly root = 'http://api.tvmaze.com';
 
   constructor(private http: HttpClient) {
   }
 
-  getSeries(phrase: string): Observable<Series[]> {
-    return this.http.get(`${this.root}/shows?q=${phrase}`).pipe(mapToModel(Series));
+  getAllSeries(): Observable<Series[]> {
+    return this.http.get(`${this.root}/shows`).pipe(mapToModel(Series));
+  }
+
+  getSeriesBy(phrase: string): Observable<Series[]> {
+    return this.http.get(`${this.root}/search/shows?q=${phrase}`).pipe(mapToModel(Series));
   }
 }

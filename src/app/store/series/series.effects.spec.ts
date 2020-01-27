@@ -28,7 +28,7 @@ describe('SeriesEffects', () => {
       provideMockActions(() => actions$),
       {
         provide: SeriesService,
-        useValue: jasmine.createSpyObj('seriesService', ['getSeries'])
+        useValue: jasmine.createSpyObj('seriesService', ['getAllSeries', 'getSeriesBy'])
       },
     ],
   }));
@@ -45,14 +45,14 @@ describe('SeriesEffects', () => {
     });
 
     it('should dispatch FetchSeriesSuccess action on success', () => {
-      (seriesService.getSeries as jasmine.Spy).and.returnValue(of(mockSeries));
+      (seriesService.getSeriesBy as jasmine.Spy).and.returnValue(of(mockSeries));
       seriesEffects.fetchSeries$.subscribe(action => {
         expect(action).toEqual(new FetchSeriesSuccess(mockSeries));
       });
     });
 
     it('should dispatch FetchSeriesFailure action on failure', () => {
-      (seriesService.getSeries as jasmine.Spy).and.returnValue(throwError({status: 500}));
+      (seriesService.getSeriesBy as jasmine.Spy).and.returnValue(throwError({status: 500}));
       seriesEffects.fetchSeries$.subscribe(action => {
         expect(action).toEqual(new FetchSeriesFailure());
       });
