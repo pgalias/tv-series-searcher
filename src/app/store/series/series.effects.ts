@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { iif, Observable, of } from 'rxjs';
-import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { chunk } from 'lodash';
 import {
   AddFavourite,
@@ -15,6 +15,8 @@ import {
 } from './series.actions';
 import { SeriesService } from '../../core/http/series.service';
 import { Series } from '../../shared/models/series';
+import { STORAGE_FAVOURITES_KEY, StorageService } from '../../core/storage/storage.service';
+import { removeFromCollection, saveUniqueToCollection } from '../../shared/helpers/store.helper';
 
 @Injectable()
 export class SeriesEffects {
@@ -40,9 +42,37 @@ export class SeriesEffects {
     ))
   );
 
+  @Effect({ dispatch: false })
+  addFavourite$: Observable<Action> = this.actions$.pipe(
+    ofType<AddFavourite>(SeriesActionTypes.ADD_FAVOURITE),
+    tap((action: AddFavourite) => {
+      const collection = saveUniqueToCollection(
+        this.storageService.receive(STORAGE_FAVOURITES_KEY) || [],
+        action.payload
+      );
+
+      this.storageService.store(STORAGE_FAVOURITES_KEY, collection);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  removeFavourite$: Observable<Action> = this.actions$.pipe(
+    ofType<RemoveFavourite>(SeriesActionTypes.REMOVE_FAVOURITE),
+    tap((action: RemoveFavourite) => {
+      const collection = removeFromCollection(
+        this.storageService.receive(STORAGE_FAVOURITES_KEY) || [],
+        action.payload,
+        'id',
+      );
+
+      this.storageService.store(STORAGE_FAVOURITES_KEY, collection);
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private seriesService: SeriesService,
+    private storageService: StorageService,
   ) {
   }
 

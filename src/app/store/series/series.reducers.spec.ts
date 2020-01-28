@@ -48,58 +48,58 @@ describe('Series reducer', () => {
     });
   });
 
-  // describe('Favourite Series Actions', () => {
-  //   describe('SeriesActions.AddFavourite', () => {
-  //     it('should add series to collection', () => {
-  //       const currentState = {
-  //         ...initialState,
-  //         series: [
-  //           [ createSeries({ id: 123, isFavourite: false }), createSeries({ id: 234, isFavourite: false }) ],
-  //         ],
-  //       };
-  //
-  //       const action = new AddFavourite(createSeries({ id: 234, isFavourite: false }));
-  //       const newState = reducer(currentState, action);
-  //       const expected = { ...initialState, series: [
-  //         [ createSeries({ id: 123, isFavourite: false }), createSeries({ id: 234, isFavourite: true }) ],
-  //       ]};
-  //
-  //       expect(newState).toEqual(expected);
-  //     });
-  //   });
-  //
-  //   describe('SeriesActions.RemoveFavourite', () => {
-  //     it('should remove series from collection', () => {
-  //       const currentState = {
-  //         ...initialState,
-  //         series: [
-  //           createSeries({ id: 123, isFavourite: true }),
-  //           createSeries({ id: 234, isFavourite: true }),
-  //         ],
-  //       };
-  //
-  //       const action = new RemoveFavourite(234);
-  //       const newState = reducer(currentState, action);
-  //       const expected = { ...initialState, series: [
-  //           createSeries({ id: 123, isFavourite: true }),
-  //           createSeries({ id: 234, isFavourite: false }),
-  //       ]};
-  //
-  //       expect(newState).toEqual(expected);
-  //     });
-  //
-  //     it('should works when even series is not in collection', () => {
-  //       const currentState = {
-  //         ...initialState,
-  //         series: [ createSeries({ id: 123, isFavourite: true }) ],
-  //       };
-  //
-  //       const action = new RemoveFavourite(321);
-  //       const newState = reducer(currentState, action);
-  //       const expected = { ...initialState, series: currentState.series};
-  //
-  //       expect(newState).toEqual(expected);
-  //     });
-  //   });
-  // });
+  describe('Favourite Series Actions', () => {
+    describe('SeriesActions.AddFavourite', () => {
+      it('should add series to collection', () => {
+        const currentState = {
+          ...initialState,
+          favourites: [ createSeries({ id: 123 }), createSeries({ id: 234 }) ]
+        };
+
+        const action = new AddFavourite(createSeries({ id: 345 }));
+        const newState = reducer(currentState, action);
+        const expected = { ...initialState, favourites: [
+            createSeries({ id: 123 }),
+            createSeries({ id: 234 }),
+            createSeries({ id: 345 }),
+          ]};
+
+        expect(newState).toEqual(expected);
+      });
+
+      it('should prevent adding series to collection when its already in it', () => {
+        const currentState = {
+          ...initialState,
+          favourites: [ createSeries({ id: 123 }), createSeries({ id: 234 }) ]
+        };
+
+        const action = new AddFavourite(createSeries({ id: 234 }));
+        const newState = reducer(currentState, action);
+        const expected = { ...initialState, favourites: [
+          createSeries({ id: 123 }),
+          createSeries({ id: 234 }),
+        ]};
+
+        expect(newState).toEqual(expected);
+      });
+    });
+
+    describe('SeriesActions.RemoveFavourite', () => {
+      it('should remove series from collection', () => {
+        const currentState = {
+          ...initialState,
+          favourites: [
+            createSeries({ id: 123 }),
+            createSeries({ id: 234 }),
+          ],
+        };
+
+        const action = new RemoveFavourite(createSeries({ id: 234 }));
+        const newState = reducer(currentState, action);
+        const expected = { ...initialState, favourites: [ createSeries({ id: 123 }) ]};
+
+        expect(newState).toEqual(expected);
+      });
+    });
+  });
 });

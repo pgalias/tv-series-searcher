@@ -4,6 +4,7 @@ import { CoreModule } from '../core.module';
 
 export const STORAGE_PHRASE_KEY = 'phrase';
 export const STORAGE_PAGE_NUMBER_KEY = 'page_number';
+export const STORAGE_FAVOURITES_KEY = 'favourites';
 
 @Injectable({
   providedIn: CoreModule

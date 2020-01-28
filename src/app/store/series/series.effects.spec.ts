@@ -12,6 +12,7 @@ import {
   ToggleFavourite
 } from './series.actions';
 import { SeriesService } from '../../core/http/series.service';
+import { STORAGE_FAVOURITES_KEY, StorageService } from '../../core/storage/storage.service';
 import { Series } from '../../shared/models/series';
 import { createSeries } from '../../shared/helpers/tests.helper';
 
@@ -20,6 +21,7 @@ describe('SeriesEffects', () => {
 
   let seriesEffects: SeriesEffects;
   let seriesService: SeriesService;
+  let storageService: StorageService;
   let actions$: ReplaySubject<any>;
 
   beforeEach(() => TestBed.configureTestingModule({
@@ -30,12 +32,17 @@ describe('SeriesEffects', () => {
         provide: SeriesService,
         useValue: jasmine.createSpyObj('seriesService', ['getAll', 'getBy'])
       },
+      {
+        provide: StorageService,
+        useValue: jasmine.createSpyObj('storageService', ['receive', 'store']),
+      }
     ],
   }));
 
   beforeEach(() => {
     seriesEffects = TestBed.get(SeriesEffects);
     seriesService = TestBed.get(SeriesService);
+    storageService = TestBed.get(StorageService);
     actions$ = new ReplaySubject<any>(1);
   });
 
@@ -85,23 +92,51 @@ describe('SeriesEffects', () => {
     });
   });
 
-  // describe('toggleFavourite$', () => {
-  //   it('should dispatch AddFavourite action when currently series is not on favourites list', () => {
-  //     const series = createSeries({ id: 123, isFavourite: false });
-  //     actions$.next(new ToggleFavourite(series));
-  //
-  //     seriesEffects.toggleFavourite$.subscribe(action => {
-  //       expect(action).toEqual(new AddFavourite(series.id));
-  //     });
-  //   });
-  //
-  //   it('should dispatch RemoveFavourite action when currently series is on favourites list', () => {
-  //     const series = createSeries({ id: 123, isFavourite: true });
-  //     actions$.next(new ToggleFavourite(series));
-  //
-  //     seriesEffects.toggleFavourite$.subscribe(action => {
-  //       expect(action).toEqual(new RemoveFavourite(series.id));
-  //     });
-  //   });
-  // });
+  describe('toggleFavourite$', () => {
+    it('should dispatch AddFavourite action when currently series is not on favourites list', () => {
+      const series = createSeries({ id: 123 });
+      actions$.next(new ToggleFavourite(series));
+
+      seriesEffects.toggleFavourite$.subscribe(action => {
+        expect(action).toEqual(new AddFavourite(series));
+      });
+    });
+
+    it('should dispatch RemoveFavourite action when currently series is on favourites list', () => {
+      const series = createSeries({ id: 123, isFavourite: true });
+      actions$.next(new ToggleFavourite(series));
+
+      seriesEffects.toggleFavourite$.subscribe(action => {
+        expect(action).toEqual(new RemoveFavourite(series));
+      });
+    });
+  });
+
+  describe('addFavourite$', () => {
+    it('should store collection with new value in localStorage', () => {
+      const series = createSeries({ id: 123 });
+      actions$.next(new AddFavourite(series));
+
+      seriesEffects.addFavourite$.subscribe(action => {
+        expect(storageService.store).toHaveBeenCalledWith(STORAGE_FAVOURITES_KEY, [createSeries({ id: 123 })]);
+      });
+    });
+  });
+
+  describe('removeFavourite$', () => {
+    it('should store collection without removed value in localStorage', () => {
+      const series = createSeries({ id: 234 });
+      actions$.next(new RemoveFavourite(series));
+
+      const currentStorage = [
+        createSeries({ id: 123 }),
+        createSeries({ id: 234 }),
+      ];
+      (storageService.receive as jasmine.Spy).and.returnValue(currentStorage);
+
+      seriesEffects.removeFavourite$.subscribe(() => {
+        expect(storageService.store).toHaveBeenCalledWith(STORAGE_FAVOURITES_KEY, [ createSeries({ id: 123 }) ]);
+      });
+    });
+  });
 });

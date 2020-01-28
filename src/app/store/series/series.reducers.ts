@@ -1,8 +1,7 @@
-import { uniqWith, isEqual } from 'lodash';
 import { SeriesActions, SeriesActionTypes } from './series.actions';
 import { initialState } from './series.state';
 import { Flags } from '../../shared/models/flags';
-import { Series } from '../../shared/models/series';
+import { removeFromCollection, saveUniqueToCollection } from '../../shared/helpers/store.helper';
 
 export function reducer(state = initialState, action: SeriesActions) {
   switch (action.type) {
@@ -26,15 +25,12 @@ export function reducer(state = initialState, action: SeriesActions) {
     case SeriesActionTypes.ADD_FAVOURITE:
       return {
         ...state,
-        favourites: uniqWith([
-          ...state.favourites,
-          action.payload,
-        ], isEqual),
+        favourites: saveUniqueToCollection(state.favourites, action.payload),
       };
     case SeriesActionTypes.REMOVE_FAVOURITE:
       return {
         ...state,
-        favourites: state.favourites.filter((series: Series) => series.id === action.payload.id)
+        favourites: removeFromCollection(state.favourites, action.payload, 'id'),
       };
     default:
       return state;
