@@ -21,7 +21,8 @@ export class ContentComponent implements OnInit {
 
   constructor(
     private store$: Store<RootStoreState.State>
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.store$.select(FiltersSelectors.selectPhrase).subscribe(phrase => this.store$.dispatch(new FetchSeriesPending(phrase)));

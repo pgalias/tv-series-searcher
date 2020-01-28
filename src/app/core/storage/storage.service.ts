@@ -3,6 +3,7 @@ import { isObject } from 'lodash';
 import { CoreModule } from '../core.module';
 
 export const STORAGE_PHRASE_KEY = 'phrase';
+export const STORAGE_PAGE_NUMBER_KEY = 'page_number';
 
 @Injectable({
   providedIn: CoreModule

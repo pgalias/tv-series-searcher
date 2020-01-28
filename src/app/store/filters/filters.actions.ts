@@ -16,7 +16,7 @@ export class ClearPhrase implements Action {
   readonly type = FiltersActionsTypes.CLEAR_PHRASE;
 }
 
-export class SetPageNumber implements Action{
+export class SetPageNumber implements Action {
   readonly type = FiltersActionsTypes.SET_PAGE_NUMBER;
   constructor(public payload: number) {}
 }
