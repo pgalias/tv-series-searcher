@@ -5,6 +5,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { SetPageNumber, SetPhrase } from './filters.actions';
 import { STORAGE_PAGE_NUMBER_KEY, STORAGE_PHRASE_KEY, StorageService } from '../../core/storage/storage.service';
 import { FetchSeriesPending } from '../series/series.actions';
+import { first, skip } from 'rxjs/operators';
 
 describe('FiltersEffects', () => {
   let filtersEffects: FiltersEffects;
@@ -33,11 +34,20 @@ describe('FiltersEffects', () => {
       actions$.next(new SetPhrase('foo'));
     });
 
-    it('should dispatch FetchSeriesPending and save phrase to localStorage', () => {
-      filtersEffects.phraseChange$.subscribe(action => {
-        expect(action).toEqual(new FetchSeriesPending('foo'));
-        expect(storageService.store).toHaveBeenCalledWith(STORAGE_PHRASE_KEY, 'foo');
+    it('should dispatch FetchSeriesPending and SetPageNumber and also save phrase to localStorage', () => {
+      filtersEffects.phraseChange$
+        .pipe(first())
+        .subscribe(action => {
+          expect(action).toEqual(new SetPageNumber(1));
+          expect(storageService.store).toHaveBeenCalledWith(STORAGE_PHRASE_KEY, 'foo');
       });
+
+      filtersEffects.phraseChange$
+        .pipe(skip(1))
+        .subscribe(action => {
+          expect(action).toEqual(new FetchSeriesPending('foo'));
+          expect(storageService.store).toHaveBeenCalledWith(STORAGE_PHRASE_KEY, 'foo');
+        });
     });
   });
 

@@ -1,5 +1,5 @@
 <searcher (onPhraseChange)="onPhraseChange($event)"></searcher>
-<paginator *ngIf="!(flags$ | async).loading"
+<paginator *ngIf="!(flags$ | async).loading && (series$ | async).length > 0 && (pagesCount$ | async) > 1"
            (onPageChange)="onPageChange($event)"
            [currentPage]="currentPage$ | async"
            [pagesCount]="pagesCount$ | async"></paginator>
@@ -8,7 +8,7 @@
              [loading]="(flags$ | async).loading"
              [loaded]="(flags$ | async).loaded"
              [error]="(flags$ | async).error"></series-list>
-<paginator *ngIf="!(flags$ | async).loading"
+<paginator *ngIf="!(flags$ | async).loading && (series$ | async).length > 0 && (pagesCount$ | async) > 1"
            (onPageChange)="onPageChange($event)"
            [currentPage]="currentPage$ | async"
            [pagesCount]="pagesCount$ | async"></paginator>

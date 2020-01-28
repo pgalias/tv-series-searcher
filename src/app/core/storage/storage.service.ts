@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isObject } from 'lodash';
+import { isNil } from 'lodash';
 import { CoreModule } from '../core.module';
 
 export const STORAGE_PHRASE_KEY = 'phrase';
@@ -16,7 +16,10 @@ export class StorageService {
   }
 
   public store(key: string, value): void {
-    value = isObject(value) ? JSON.stringify(value) : value;
-    localStorage.setItem(key, value);
+    if (isNil(value) || value === '') {
+      return localStorage.removeItem(key);
+    }
+
+    localStorage.setItem(key, JSON.stringify(value));
   }
 }

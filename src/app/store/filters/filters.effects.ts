@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
 import { FiltersActionsTypes, SetPageNumber, SetPhrase } from './filters.actions';
 import { FetchSeriesPending } from '../series/series.actions';
@@ -14,7 +14,10 @@ export class FiltersEffects {
   phraseChange$: Observable<Action> = this.actions$.pipe(
     ofType<SetPhrase>(FiltersActionsTypes.SET_PHRASE),
     tap(action => this.storageService.store(STORAGE_PHRASE_KEY, action.payload)),
-    concatMap(action => of(new FetchSeriesPending(action.payload))),
+    concatMap(action => [
+      new SetPageNumber(1),
+      new FetchSeriesPending(action.payload),
+    ]),
   );
 
   @Effect({ dispatch: false })

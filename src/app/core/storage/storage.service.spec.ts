@@ -1,5 +1,4 @@
 import using from 'jasmine-data-provider';
-import { isString } from 'lodash';
 import { StorageService } from './storage.service';
 
 describe('StorageService', () => {
@@ -14,10 +13,12 @@ describe('StorageService', () => {
       { key: 'foo', value: 'bar' },
       { key: 'foo', value: true },
       { key: 'foo', value: 1 },
-      { key: 'foo', value: { bar: true }}
+      { key: 'foo', value: { bar: true }},
+      { key: 'foo', value: false },
+      { key: 'foo', value: [] },
     ], ({ key, value }) => {
       service.store(key, value);
-      const expected = isString(value) ? value : JSON.stringify(value);
+      const expected = JSON.stringify(value);
 
       expect(localStorage.getItem(key)).toEqual(expected);
     });

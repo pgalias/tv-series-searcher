@@ -26,9 +26,9 @@ export class ContentComponent implements OnInit {
 
   ngOnInit() {
     this.store$.select(FiltersSelectors.selectPhrase).subscribe(phrase => this.store$.dispatch(new FetchSeriesPending(phrase)));
-    this.series$ = this.store$.select(RootStoreSelectors.selectSeriesByPage);
+    this.series$ = this.store$.select(RootStoreSelectors.selectSeriesByPage).pipe(shareReplay());
     this.flags$ = this.store$.select(SeriesSelectors.selectSeriesFlags).pipe(shareReplay());
-    this.pagesCount$ = this.store$.select(RootStoreSelectors.selectMaxPages);
+    this.pagesCount$ = this.store$.select(RootStoreSelectors.selectMaxPages).pipe(shareReplay());
     this.currentPage$ = this.store$.select(FiltersSelectors.selectCurrentPage);
   }
 
