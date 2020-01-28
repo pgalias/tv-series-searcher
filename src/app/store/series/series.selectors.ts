@@ -7,5 +7,6 @@ export const selectSeries = createSelector(selectSeriesState, (state: State) => 
 export const selectSeriesFlags = createSelector(selectSeriesState, (state: State) => state.flags);
 export const selectFavorite = createSelector(
   selectSeriesState,
-  (state: State) => state.series.filter((series: Series) => series.isFavourite)
+  (state: State) => state.series
+  // (state: State) => state.series.filter((series: Series) => series.isFavourite)
 );

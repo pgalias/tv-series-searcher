@@ -1,6 +1,14 @@
 <searcher (onPhraseChange)="onPhraseChange($event)"></searcher>
+<paginator *ngIf="!(flags$ | async).loading"
+           (onPageChange)="onPageChange($event)"
+           [currentPage]="currentPage$ | async"
+           [pagesCount]="pagesCount$ | async"></paginator>
 <series-list (toggleFavourite)="onFavouriteSeriesToggle($event)"
              [series]="series$ | async"
              [loading]="(flags$ | async).loading"
              [loaded]="(flags$ | async).loaded"
              [error]="(flags$ | async).error"></series-list>
+<paginator *ngIf="!(flags$ | async).loading"
+           (onPageChange)="onPageChange($event)"
+           [currentPage]="currentPage$ | async"
+           [pagesCount]="pagesCount$ | async"></paginator>

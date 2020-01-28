@@ -8,6 +8,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { FavouriteButtonComponent } from './components/favourite-button/favourite-button.component';
 import { LinkComponent } from './components/link/link.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { LinkComponent } from './components/link/link.component';
     TruncatePipe,
     FavouriteButtonComponent,
     LinkComponent,
+    PaginatorComponent,
   ],
   exports: [
     RowDirective,
@@ -27,10 +30,12 @@ import { LinkComponent } from './components/link/link.component';
     TruncatePipe,
     FavouriteButtonComponent,
     LinkComponent,
+    PaginatorComponent,
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
+    FormsModule,
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,25 @@
+<div class="container">
+  <div row align="center center" class="paginator">
+    <button type="button"
+            title="prev"
+            class="button"
+            (click)="onPageChange.emit(currentPage - 1)"
+            [disabled]="prevDisabled">
+      <fa-icon [icon]="prevButton"></fa-icon>
+    </button>
+
+    <select [ngModel]="currentPage" (change)="onPageChange.emit($event.target.value)" class="select">
+      <option *ngFor="let page of pages" [value]="page">
+        {{ page }}
+      </option>
+    </select>
+
+    <button type="button"
+            title="next"
+            class="button"
+            (click)="onPageChange.emit(currentPage + 1)"
+            [disabled]="nextDisabled">
+      <fa-icon [icon]="nextButton"></fa-icon>
+    </button>
+  </div>
+</div>

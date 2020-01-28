@@ -1,5 +1,5 @@
 <div class="container">
-  <ng-container *ngIf="series.length > 0 && loaded">
+  <ng-container *ngIf="loaded && series.length > 0">
     <div row align="start end" class="series-list">
       <div *ngFor="let serie of series" column="12" md="6" lg="4">
         <series-list-item [series]="serie" (toggleFavourite)="toggleFavourite.emit($event)"></series-list-item>
@@ -7,7 +7,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="series.length === 0 && loaded">
+  <ng-container *ngIf="loaded && series.length === 0">
     <p class="loaded">There are not any series found for given phrase.</p>
   </ng-container>
 

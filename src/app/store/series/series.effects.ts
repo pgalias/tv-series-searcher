@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { iif, Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { chunk } from 'lodash';
 import {
   AddFavourite,
   FetchSeriesFailure,
@@ -23,7 +24,7 @@ export class SeriesEffects {
     ofType<FetchSeriesPending>(SeriesActionTypes.FETCH_SERIES_PENDING),
     switchMap(action =>
       this.resolveServiceMethod(action).pipe(
-        map((series: Series[]) => new FetchSeriesSuccess(series)),
+        map((series: Series[]) => new FetchSeriesSuccess(chunk(series, 20))),
         catchError(() => of(new FetchSeriesFailure())),
       )
     )
@@ -34,8 +35,8 @@ export class SeriesEffects {
     ofType<ToggleFavourite>(SeriesActionTypes.TOGGLE_FAVOURITE),
     concatMap((action: ToggleFavourite) => iif(
       () => action.payload.isFavourite,
-      of(new RemoveFavourite(action.payload.id)),
-      of(new AddFavourite(action.payload.id)),
+      of(new RemoveFavourite(action.payload)),
+      of(new AddFavourite(action.payload)),
     ))
   );
 

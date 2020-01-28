@@ -19,7 +19,7 @@ export class FetchSeriesPending implements Action {
 
 export class FetchSeriesSuccess implements Action {
   readonly type = SeriesActionTypes.FETCH_SERIES_SUCCESS;
-  constructor(public payload: Series[]) {}
+  constructor(public payload: Series[][]) {}
 }
 
 export class FetchSeriesFailure implements Action {
@@ -28,12 +28,12 @@ export class FetchSeriesFailure implements Action {
 
 export class AddFavourite implements Action {
   readonly type = SeriesActionTypes.ADD_FAVOURITE;
-  constructor(public payload: Id) {}
+  constructor(public payload: Series) {}
 }
 
 export class RemoveFavourite implements Action {
   readonly type = SeriesActionTypes.REMOVE_FAVOURITE;
-  constructor(public payload: Id) {}
+  constructor(public payload: Series) {}
 }
 
 export class ToggleFavourite implements Action {
